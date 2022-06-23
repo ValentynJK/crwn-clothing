@@ -1,9 +1,9 @@
-import { toBePartiallyChecked } from '@testing-library/jest-dom/dist/matchers';
 import { useState } from 'react';
 
-import Button from '../../components/button/button.component';
 import { signInWithGooglePopup, createUserDocumentFromAuth, signInAuthWithEmailAndPassword } from '../../utils/firebase/firebase.util';
+import Button from '../../components/button/button.component';
 import FormInput from '../form-input/form-input.component';
+
 import './sign-in-form.styles.scss'
 
 const defaultFormFields = {
@@ -15,6 +15,8 @@ const SignInForm = () => {
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+
+  // accessing the current user sign in status setter
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -29,15 +31,13 @@ const SignInForm = () => {
   }
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await signInAuthWithEmailAndPassword(email, password);
-      console.log(response);
+      await signInAuthWithEmailAndPassword(email, password);
       resetFormFields();
     }
     catch (error) {

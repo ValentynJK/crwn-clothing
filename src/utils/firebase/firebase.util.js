@@ -6,6 +6,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword, // to sign in with email and password
+  signOut,
+  onAuthStateChanged // Adds an observer for changes to the user's sign-in state. Return a listener
   // sendPasswordResetEmail
 } from 'firebase/auth';
 import {
@@ -43,12 +45,11 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
   if (!userAuth) return;
 
   const userDocRef = doc(db, 'users', userAuth.uid);
-  // console.log(userAuth);
-  console.log(userDocRef);
+  // console.log(userDocRef);
 
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot);
-  console.log(userSnapshot.exists());
+  // console.log(userSnapshot);
+  // console.log(userSnapshot.exists());
 
   // block to create user record in user document if there is no such user in db
   if (!userSnapshot.exists()) {
@@ -79,3 +80,7 @@ export const signInAuthWithEmailAndPassword = async (email, password) => {
 
   return await signInWithEmailAndPassword(auth, email, password);
 };
+
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangeListener = (callback) => onAuthStateChanged(auth, callback)
