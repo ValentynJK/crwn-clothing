@@ -11,7 +11,7 @@ import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 
 // contexts 
 import { UserContext } from "../../contexts/user.context";
-import { CartDropdownContext } from '../../contexts/cart-dropdown.context';
+import { CartContext } from '../../contexts/cart.context';
 
 // firebase
 import { signOutUser } from "../../utils/firebase/firebase.util";
@@ -20,7 +20,7 @@ import { signOutUser } from "../../utils/firebase/firebase.util";
 const Navigation = () => {
 
   const { currentUser } = useContext(UserContext);
-  const { isCartOpen } = useContext(CartDropdownContext);
+  const { isCartOpen } = useContext(CartContext);
 
   return (
     <Fragment>

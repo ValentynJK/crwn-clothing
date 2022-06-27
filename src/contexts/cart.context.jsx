@@ -17,29 +17,61 @@ const addCartItem = (cartItems, productToAdd) => {
 
   // default function return. JS stop code executing after reaching first return statement
   return [...cartItems, { ...productToAdd, quantity: 1 }]
-
 };
 
-export const CartDropdownContext = createContext({
+const deleteCartItem = (cartItems, productToDelete) => {
+  const newCartItems = cartItems.filter(cartItem => cartItem.id !== productToDelete.id);
+  return newCartItems;
+};
+
+const decreaseItems = (cartItems, productToDecrease) => {
+  if (productToDecrease.quantity === 1) {
+    return deleteCartItem(cartItems, productToDecrease);
+  };
+  return cartItems.map((cartItem) => cartItem.id === productToDecrease.id ? { ...cartItem, quantity: cartItem.quantity - 1 } : cartItem)
+};
+
+export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => null,
   cartItems: [],
   addItemToCart: () => null,
   cartItemQuantity: 0,
-  countCartQuantity: () => null
+  countCartQuantity: () => null,
+  deleteItemFromCart: () => null,
+  decreaseItemQuantity: () => null,
+  cartTotal: 0,
+  serCartTotal: () => null,
 
 })
 
-export const CartDropdownProvider = ({ children }) => {
+export const CartProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartItemQuantity, setCartItemQuantity] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
 
+
+  // !!!ONE EFFECT - ONE RESPONSIBILITY
   // effect to count total quantity in cart
   useEffect(() => {
     const totalItems = cartItems.reduce((total, currItem) => total + currItem.quantity, 0);
-    setCartItemQuantity(totalItems)
+    setCartItemQuantity(totalItems);
+  }, [cartItems]);
+
+  // effect to count total sum of cart
+  useEffect(() => {
+    const newCartTotal = cartItems.reduce((total, currItem) => total + currItem.quantity * currItem.price, 0);
+    setCartTotal(newCartTotal);
   }, [cartItems])
+
+  const deleteItemFromCart = productToDelete => {
+    setCartItems(deleteCartItem(cartItems, productToDelete))
+  };
+
+  const decreaseItemQuantity = cartItem => {
+    setCartItems(decreaseItems(cartItems, cartItem));
+  };
 
   const addItemToCart = (productToAdd) => {
     /* setting cart items into cart list
@@ -49,9 +81,18 @@ export const CartDropdownProvider = ({ children }) => {
     setCartItems(addCartItem(cartItems, productToAdd))
   };
 
-  const value = { isCartOpen, setIsCartOpen, addItemToCart, cartItems, cartItemQuantity };
+  const value = {
+    isCartOpen,
+    setIsCartOpen,
+    addItemToCart,
+    cartItems,
+    cartItemQuantity,
+    deleteItemFromCart,
+    decreaseItemQuantity,
+    cartTotal
+  };
 
   return (
-    <CartDropdownContext.Provider value={value}>{children}</CartDropdownContext.Provider>
+    <CartContext.Provider value={value}>{children}</CartContext.Provider>
   )
 }

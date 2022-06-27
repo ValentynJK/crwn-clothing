@@ -1,11 +1,11 @@
 import './product-card.styles.scss';
 import Button from '../button/button.component';
 import { useContext } from 'react';
-import { CartDropdownContext } from '../../contexts/cart-dropdown.context';
+import { CartContext } from '../../contexts/cart.context';
 
 const ProductCard = ({ product }) => {
   const { name, price, imageUrl } = product;
-  const { addItemToCart } = useContext(CartDropdownContext);
+  const { addItemToCart } = useContext(CartContext);
 
   const addProductToCart = () => addItemToCart(product);
 
