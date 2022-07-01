@@ -10,7 +10,6 @@ const App = () => {
 
   return (
     <Routes>
-
       <Route path='/' element={<Navigation />}>
         <Route index element={<Home />} />
         {/* '/*' matches anything which contains 'shop/' */}

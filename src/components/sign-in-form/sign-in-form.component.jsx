@@ -4,7 +4,7 @@ import { signInWithGooglePopup, signInAuthWithEmailAndPassword } from '../../uti
 import Button from '../../components/button/button.component';
 import FormInput from '../form-input/form-input.component';
 
-import './sign-in-form.styles.scss'
+import { SignInButtonsContainer, SignInContainer } from './sign-in-form.styles'
 
 const defaultFormFields = {
   email: '',
@@ -56,7 +56,7 @@ const SignInForm = () => {
   }
 
   return (
-    <div className='sign-in-container'>
+    <SignInContainer>
       <h2>I already have an account</h2>
       <span>Sign-in with your email and password</span>
       <form onSubmit={handleSubmit}>
@@ -67,12 +67,12 @@ const SignInForm = () => {
         <FormInput
           label="Password" type="password" required onChange={handleChange} name="password" value={password}
         />
-        <div className='sign-in-buttons-container'>
+        <SignInButtonsContainer>
           <Button type='submit' children='Sign In' />
           <Button type='button' onClick={signInWithGoogle} children='Sign in with Google' buttonType='google' />
-        </div>
+        </SignInButtonsContainer>
       </form>
-    </div>
+    </SignInContainer>
   )
 }
 
