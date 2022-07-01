@@ -1,19 +1,26 @@
-import React from 'react';
-import './button.styles.scss';
+import { BaseButton, GoogleSignInButton, InvertedButton } from './button.styles';
 
 // holds general button styling types
-const buttonTypes = {
+export const BUTTON_TYPES = {
+  base: 'base',
   google: 'google-sign-in',
   inverted: 'inverted',
-  checkout: 'checkout'
-}
+};
+
+const getButton = (buttonType = BUTTON_TYPES.base) => ({
+  [BUTTON_TYPES.base]: BaseButton,
+  [BUTTON_TYPES.google]: GoogleSignInButton,
+  [BUTTON_TYPES.inverted]: InvertedButton,
+}[buttonType]);
+
 
 const Button = ({ children, buttonType, ...otherProps }) => {
+  const CustomButton = getButton(buttonType);
   return (
-    <button className={`button-container ${buttonTypes[buttonType]}`} {...otherProps}>
+    <CustomButton {...otherProps}>
       {children}
-    </button>
+    </CustomButton>
   )
 }
 
-export default Button
+export default Button;
