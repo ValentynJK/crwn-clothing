@@ -1,7 +1,9 @@
 // For user data storage and distribution between components where it needed. 
 // To prevent data drilling between components where this info is not needed.
 import React from 'react';
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useEffect, useReducer } from 'react';
+import { createAction } from '../utils/reducer/reduces.util'
+
 
 import { createUserDocumentFromAuth, onAuthStateChangeListener } from '../utils/firebase/firebase.util';
 
@@ -14,14 +16,41 @@ export const UserContext = createContext({
   setCurrentUser: () => null
 });
 
+export const USER_ACTION_TYPES = {
+  SET_CURRENT_USER: 'SET_CURRENT_USER'
+};
+
+
+const userReducer = (state, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_ACTION_TYPES.SET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: payload
+      }
+    default:
+      throw new Error(`Unhandled type ${type} in userReducer`)
+  }
+
+}
+
+const INITIAL_STATE = {
+  currentUser: null
+}
+
 // ACTUAL COMPONENT!
 // This provider allows any of its child to access the any value of its state
 // UserProvider is alias to use UserContext.Provider
 // Needed in index.jsx to wrap the <App /> (or any other component you need to props in) component
 export const UserProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const value = { currentUser, setCurrentUser };
+  const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_STATE);
 
+  const setCurrentUser = (user) => {
+    dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user))
+  }
+  const value = { currentUser, setCurrentUser };
 
   // to sing in/ sign out listener unsubscribe
   // it mounts only once, return the auth state and end its cycle
