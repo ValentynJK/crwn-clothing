@@ -1,11 +1,5 @@
-// For user data storage and distribution between components where it needed. 
-// To prevent data drilling between components where this info is not needed.
-import React from 'react';
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useReducer } from 'react';
 import { createAction } from '../utils/reducer/reduces.util'
-
-
-import { createUserDocumentFromAuth, onAuthStateChangeListener } from '../utils/firebase/firebase.util';
 
 // ACTUAL STORAGE!
 // as the actual value you want to access
@@ -50,18 +44,6 @@ export const UserProvider = ({ children }) => {
     dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user))
   }
   const value = { currentUser, setCurrentUser };
-
-  // to sing in/ sign out listener unsubscribe
-  // it mounts only once, return the auth state and end its cycle
-  useEffect(() => {
-    const unsubscribe = onAuthStateChangeListener((user) => {
-      if (user) {
-        createUserDocumentFromAuth(user)
-      }
-      setCurrentUser(user);
-    });
-    return unsubscribe;
-  }, [])
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
