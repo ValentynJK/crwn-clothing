@@ -3,14 +3,14 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductCard from '../../components/product-card/product-card.component';
 import { CategoryItem, CategoryContainer } from './category.styles';
-import { selectCategory } from '../../store/categories/category.selector';
+import { selectCategoriesMap } from '../../store/categories/category.selector';
 
 const Category = () => {
   // species the clothes type
   const { category } = useParams();
 
   // gets all products object
-  const categoriesMap = useSelector(selectCategory)
+  const categoriesMap = useSelector(selectCategoriesMap)
 
   // sets products to render
   const [products, setProduct] = useState(categoriesMap[category]);

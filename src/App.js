@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createUserDocumentFromAuth, onAuthStateChangeListener } from './utils/firebase/firebase.util';
-import { getCollectionAndDocuments } from "./utils/firebase/firebase.util.js";
 
 import { Routes, Route } from 'react-router-dom';
 import Home from './routes/home/home.component.jsx';
@@ -11,7 +10,6 @@ import Shop from './routes/shop/shop.component.jsx';
 import Checkout from './routes/checkout/checkout.component.jsx'
 
 import { setCurrentUser } from './store/user/user.action';
-import { setCategoriesMap } from './store/categories/category.action'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -27,14 +25,6 @@ const App = () => {
     });
     return unsubscribe;
   }, [dispatch]);
-
-  useEffect(() => {
-    const getCategoriesMap = async () => {
-      const categoriesMap = await getCollectionAndDocuments();
-      dispatch(setCategoriesMap(categoriesMap))
-    };
-    getCategoriesMap();
-  }, [dispatch])
 
   return (
     <Routes>
