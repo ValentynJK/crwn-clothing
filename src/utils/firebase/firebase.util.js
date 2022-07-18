@@ -1,4 +1,3 @@
-import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,// Returns the Auth instance associated with the provided db. 
@@ -71,13 +70,9 @@ export const getCollectionAndDocuments = async () => {
   // fetching documents from the collection using query
   const querySnapshot = await getDocs(q);
   // querySnapshot - array of documents
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    // docSnapshot.data() - actual document
-    acc[title.toLowerCase()] = items;
-    return acc
-  }, {})
-  return categoryMap;
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+
+
 };
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
