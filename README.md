@@ -1,2 +1,1 @@
-Adding redux to the project
-test
+All contexts is migrated to the redux store
