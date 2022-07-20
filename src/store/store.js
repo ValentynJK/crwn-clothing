@@ -1,7 +1,9 @@
 import { compose, legacy_createStore as createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist'; //  boilerplate for redux-persist
 import storage from 'redux-persist/lib/storage' // localStorage is used by default // boilerplate for redux-persist
+import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+
 
 import { rootReducer } from './root-reduces';
 
@@ -9,13 +11,13 @@ import { rootReducer } from './root-reduces';
 
 // for catching state before hitting reducer
 // process.env.NODE_ENV === 'development' for not logging in production mode
-const middleWares = [process.env.NODE_ENV !== 'production' && logger].filter(Boolean);
+const middleWares = [process.env.NODE_ENV !== 'production' && logger, thunk].filter(Boolean);
 
 // initialization redux-persist configuration //  boilerplate for redux-persist
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['user']
+  whitelist: ['cart']
 };
 
 //  boilerplate for redux-persist
