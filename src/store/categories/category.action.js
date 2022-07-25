@@ -21,6 +21,4 @@ export const fetchCategoriesAsync = () => async (dispatch) => {
     // in case of failure dispatches error to reducer
     dispatch(fetchCategoriesFailed(error))
   }
-
-
 }

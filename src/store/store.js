@@ -1,17 +1,19 @@
 import { compose, legacy_createStore as createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist'; //  boilerplate for redux-persist
 import storage from 'redux-persist/lib/storage' // localStorage is used by default // boilerplate for redux-persist
-import thunk from 'redux-thunk';
+// import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-
+import createSagaMiddleware from 'redux-saga';
+import { rootSaga } from './root-saga'
 
 import { rootReducer } from './root-reduces';
 
-// root reducer 
+const sagaMiddleware = createSagaMiddleware()
+// root reducer
 
-// for catching state before hitting reducer
+// for catching state before hitting reducers
 // process.env.NODE_ENV === 'development' for not logging in production mode
-const middleWares = [process.env.NODE_ENV !== 'production' && logger, thunk].filter(Boolean);
+const middleWares = [process.env.NODE_ENV !== 'production' && logger, sagaMiddleware].filter(Boolean);
 
 // initialization redux-persist configuration //  boilerplate for redux-persist
 const persistConfig = {
@@ -19,6 +21,7 @@ const persistConfig = {
   storage,
   whitelist: ['cart']
 };
+
 
 //  boilerplate for redux-persist
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -29,6 +32,8 @@ const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 
 // store is using persistedReducer as source
 export const store = createStore(persistedReducer, undefined, composedEnhancers);
+
+sagaMiddleware.run(rootSaga);
 
 // creating persistor //  boilerplate for redux-persist
 export const persistor = persistStore(store);
