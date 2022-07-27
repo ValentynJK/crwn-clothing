@@ -6,7 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword, // to sign in with email and password
   signOut,
-  onAuthStateChanged // Adds an observer for changes to the user's sign-in state. Return a listener
+  onAuthStateChanged // Adds an observer for changes to the user's sign-in state. Returns a listener
   // sendPasswordResetEmail
 } from 'firebase/auth';
 import {
@@ -71,8 +71,6 @@ export const getCollectionAndDocuments = async () => {
   const querySnapshot = await getDocs(q);
   // querySnapshot - array of documents
   return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
-
-
 };
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
@@ -100,7 +98,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
   };
 
   // return in case user exists
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -117,4 +115,18 @@ export const signInAuthWithEmailAndPassword = async (email, password) => {
 
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangeListener = (callback) => onAuthStateChanged(auth, callback)
+export const onAuthStateChangeListener = (callback) => onAuthStateChanged(auth, callback);
+
+// checks if there is user signed in
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth)
+      },
+      reject
+    )
+  })
+};
