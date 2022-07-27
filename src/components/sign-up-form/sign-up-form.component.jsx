@@ -1,9 +1,12 @@
+// react, redux
 import { useState } from 'react';
-import React from 'react';
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase.util';
-
+import { useDispatch } from 'react-redux';
+// components
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
+// redux actions
+import { emailSignUpStart } from '../../store/user/user.action';
+// styles
 import { SignUpContainer } from './sign-up-form.styles'
 
 // default sign up field state
@@ -16,9 +19,9 @@ const defaultFormFields = {
 
 const SignUpForm = () => {
 
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
-
 
   // to clear fields after success sign up
   const resetFormFields = () => {
@@ -36,9 +39,11 @@ const SignUpForm = () => {
     };
 
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(email, password);
-      // user.displayName = displayName;
-      await createUserDocumentFromAuth(user, { displayName });
+      dispatch(emailSignUpStart(email, password))
+      // const { user } = await createAuthUserWithEmailAndPassword(email, password);
+      // // user.displayName = displayName;
+
+      // await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
       alert("Congratulations, user is created successfully ")
     }
