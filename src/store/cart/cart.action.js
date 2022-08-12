@@ -48,3 +48,5 @@ export const addItemToCart = (cartItems, productToAdd) => {
   const newCartItems = addCartItem(cartItems, productToAdd);
   return createAction(CART_ACTION_TYPES.SET_CART_ITEMS, newCartItems);
 };
+
+export const clearCart = () => createAction(CART_ACTION_TYPES.CLEAR_CART);
