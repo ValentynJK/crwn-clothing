@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
 // redux actions
-import { emailSignUpStart } from '../../store/user/user.action';
+import { signUpStart } from '../../store/user/user.action';
 // styles
 import { SignUpContainer } from './sign-up-form.styles'
 
@@ -39,7 +39,7 @@ const SignUpForm = () => {
     };
 
     try {
-      dispatch(emailSignUpStart(email, password))
+      dispatch(signUpStart(email, password))
       // const { user } = await createAuthUserWithEmailAndPassword(email, password);
       // // user.displayName = displayName;
 

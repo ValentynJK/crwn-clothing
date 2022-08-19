@@ -25,7 +25,6 @@ const PaymentForm = () => {
   const paymentHandler = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) {
-      console.log(stripe, elements)
       return
     };
     setIsProcessingPayment(true);
@@ -39,7 +38,6 @@ const PaymentForm = () => {
     }).then((res) => res.json());
 
     const { paymentIntent: { client_secret } } = response;
-    console.log(client_secret);
 
     const paymentResult = await stripe.confirmCardPayment(client_secret, {
       payment_method: {
@@ -67,8 +65,6 @@ const PaymentForm = () => {
       }
     }
   }
-
-
 
   return (
     <PaymentFormContainer>

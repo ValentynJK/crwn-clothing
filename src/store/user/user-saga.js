@@ -2,7 +2,7 @@ import { takeLatest, all, call, put } from "redux-saga/effects";
 
 import { USER_ACTION_TYPES } from "./user.types";
 
-import { signInSuccess, signInFailed, emailSignUpSuccess, emailSignUpFailed, singOutSuccess, signOutFailed } from "./user.action";
+import { signInSuccess, signInFailed, signUpSuccess, signUpFailed, singOutSuccess, signOutFailed } from "./user.action";
 
 import {
   getCurrentUser,
@@ -66,11 +66,11 @@ export function* signInAfterSignUp({ payload: { user, displayName } }) {
 export function* signUpWithEmailAndPass({ payload: { email, password, displayName } }) {
   try {
     const { user } = yield call(createAuthUserWithEmailAndPassword, email, password);
-    yield put(emailSignUpSuccess(user, { displayName }))
+    yield put(signUpSuccess(user, { displayName }))
     // yield call(getSnapshotFromUseAuth, user, displayName);
   }
   catch (error) {
-    yield put(emailSignUpFailed(error))
+    yield put(signUpFailed(error))
   }
 };
 
@@ -101,12 +101,12 @@ export function* onSignInWithEmailAndPassStart() {
 
 // entry point for sign up with email and password
 export function* onSignUpWithEmailAndPassStart() {
-  yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_UP_START, signUpWithEmailAndPass)
+  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, signUpWithEmailAndPass)
 };
 
 // entry point for sign up success
 export function* onSignUpSuccess() {
-  yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_UP_SUCCESS, signInAfterSignUp)
+  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_SUCCESS, signInAfterSignUp)
 }
 
 // entry point for sign out
