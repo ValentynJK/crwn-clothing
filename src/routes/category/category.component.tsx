@@ -1,6 +1,6 @@
 // react, redux
 import { useSelector } from 'react-redux';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 // components
 import ProductCard from '../../components/product-card/product-card.component';
@@ -10,9 +10,13 @@ import { CategoryItem, CategoryContainer } from './category.styles';
 // reduces selectors
 import { selectCategoriesIsLoading, selectCategoriesMap } from '../../store/categories/category.selector';
 
+type CategoryRouteParams = {
+  category: string
+}
+
 const Category = () => {
   // species the clothes type
-  const { category } = useParams();
+  const { category } = useParams<keyof CategoryRouteParams>() as CategoryRouteParams;
 
   // gets all products object
   const categoriesMap = useSelector(selectCategoriesMap)
