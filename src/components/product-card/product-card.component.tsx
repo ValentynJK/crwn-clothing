@@ -1,6 +1,6 @@
 // react, redux
+import { FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FC } from 'react';
 // components
 import Button, { BUTTON_TYPES } from '../button/button.component';
 // selectors, actions
@@ -21,7 +21,7 @@ const ProductCard: FC<ProductCardType> = ({ product }) => {
 
   const { name, price, imageUrl } = product;
 
-  const addProductToCart = () => dispatch(addItemToCart(cartItems, product));
+  const addProductToCart = useCallback(() => dispatch(addItemToCart(cartItems, product)), [cartItems, product]);
 
   return (
     <ProductCardContainer>

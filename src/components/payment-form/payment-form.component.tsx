@@ -1,5 +1,5 @@
 // react
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // selectors
 import { selectCartTotal } from '../../store/cart/cart.selector';
@@ -22,7 +22,7 @@ const PaymentForm = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
 
-  const paymentHandler = async (event: FormEvent<HTMLFormElement>) => {
+  const paymentHandler = useCallback(async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!stripe || !elements) {
       return
@@ -67,7 +67,7 @@ const PaymentForm = () => {
         alert('Payment successful')
       }
     }
-  }
+  }, [amount, currentUser, elements, stripe])
 
   return (
     <PaymentFormContainer>

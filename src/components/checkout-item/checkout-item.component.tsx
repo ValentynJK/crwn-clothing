@@ -1,5 +1,5 @@
 // redux, react
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 //selectors, actions
 import { selectCartItems } from '../../store/cart/cart.selector';
@@ -19,11 +19,11 @@ const CheckoutItem: FC<CheckoutItemProps> = ({ checkoutItem }) => {
 
   const cartItems = useSelector(selectCartItems)
 
-  const deleteHandler = () => dispatch(deleteItemFromCart(cartItems, checkoutItem));
+  const deleteHandler = useCallback(() => dispatch(deleteItemFromCart(cartItems, checkoutItem)), [cartItems, checkoutItem]);
 
-  const increaseHandler = () => dispatch(addItemToCart(cartItems, checkoutItem));
+  const increaseHandler = useCallback(() => dispatch(addItemToCart(cartItems, checkoutItem)), [cartItems, checkoutItem]);
 
-  const decreaseHandler = () => dispatch(decreaseItemQuantity(cartItems, checkoutItem));
+  const decreaseHandler = useCallback(() => dispatch(decreaseItemQuantity(cartItems, checkoutItem)), [cartItems, checkoutItem]);
 
   return (
     <CheckoutItemContainer>

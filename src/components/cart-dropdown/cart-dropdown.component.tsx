@@ -1,24 +1,26 @@
 // react, redux
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import { useCallback, useState } from 'react'; // using to memoise functions declarations
 // components
 import Button from '../button/button.component';
 import CartItem from '../cart-item/cart-item.component';
-
 // selectors
 import { selectCartItems } from '../../store/cart/cart.selector';
-
 // styling
-import { CartDropdownContainer, EmptyMessage, CartItems } from './cart-dropdown.styles';
+import {
+  CartDropdownContainer,
+  EmptyMessage,
+  CartItems
+} from './cart-dropdown.styles';
 
 const CartDropdown = () => {
-
-  const navigateTo = useNavigate();
-  const goToCheckoutHandler = () => {
-    navigateTo('/checkout')
-  };
   const cartItems = useSelector(selectCartItems)
+  const navigateTo = useNavigate();
+
+  const goToCheckoutHandler = useCallback(() => {
+    navigateTo('/checkout');
+  }, []);
 
   return (
     <CartDropdownContainer>

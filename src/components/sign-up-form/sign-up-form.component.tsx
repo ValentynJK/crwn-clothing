@@ -1,7 +1,7 @@
 // firebase
 import { AuthError, AuthErrorCodes } from 'firebase/auth'
 // react, redux
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 // components
 import FormInput from '../form-input/form-input.component';
@@ -26,22 +26,21 @@ const SignUpForm = () => {
   const { displayName, email, password, confirmPassword } = formFields;
 
   // to clear fields after success sign up
-  const resetFormFields = () => {
+  const resetFormFields = useCallback(() => {
     setFormFields(defaultFormFields)
-  };
+  }, []);
 
   // to create a new user from the sign up form
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const passwordCheck = password === confirmPassword;
-    console.log(passwordCheck)
     if (!passwordCheck) {
       alert('passwords does not math!');
       return;
     };
 
     try {
-      dispatch(signUpStart(email, password))
+      dispatch(signUpStart(email, password, displayName))
       // const { user } = await createAuthUserWithEmailAndPassword(email, password);
       // // user.displayName = displayName;
 
@@ -56,16 +55,16 @@ const SignUpForm = () => {
         console.log('Error occurred', error)
       };
     };
-  };
+  }, [confirmPassword, displayName, email, password, resetFormFields]);
 
   // handle sign up fields change
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormFields({
       ...formFields,
       [name]: value
     })
-  };
+  }, [formFields]);
 
   return (
     <SignUpContainer>

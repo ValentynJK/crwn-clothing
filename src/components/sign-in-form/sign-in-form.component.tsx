@@ -1,7 +1,7 @@
 // firebase
 import { AuthError, AuthErrorCodes } from 'firebase/auth'
 // react, redux
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 // components
 import Button, { BUTTON_TYPES } from '../button/button.component';
@@ -24,23 +24,23 @@ const SignInForm = () => {
 
   // accessing the current user sign in status setter
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormFields({
       ...formFields,
       [name]: value
     })
-  };
+  }, [formFields]);
 
-  const resetFormFields = () => {
+  const resetFormFields = useCallback(() => {
     setFormFields(defaultFormFields)
-  }
+  }, [])
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = useCallback(async () => {
     dispatch(googleSignStart())
-  };
+  }, []);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       dispatch(emailSignInStart(email, password));
@@ -59,7 +59,7 @@ const SignInForm = () => {
           break;
       }
     }
-  }
+  }, [email, password, resetFormFields])
 
   return (
     <SignInContainer>
