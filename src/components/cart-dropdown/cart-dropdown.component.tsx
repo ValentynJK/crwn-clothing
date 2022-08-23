@@ -1,7 +1,7 @@
 // react, redux
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useCallback, useState } from 'react'; // using to memoise functions declarations
+import { useCallback } from 'react';
 // components
 import Button from '../button/button.component';
 import CartItem from '../cart-item/cart-item.component';
