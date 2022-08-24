@@ -16,11 +16,16 @@ img {
 }
 
 button {
-  width: 80%;
   opacity: 0.7;
   position: absolute;
   top: 255px;
   display: none;
+}
+
+@media screen and (max-width: 800px) {
+  button {
+    display: flex;
+  }
 }
 
 &:hover {
@@ -32,7 +37,22 @@ button {
     opacity: 0.85;
     display: flex;
   }
-`;
+  @media screen and (max-width: 800px) {
+
+    &:hover {
+      img {
+        opacity: unset;
+      }
+
+      button {
+        opacity: unset;
+        width: 110px;
+        display: flex;
+      }
+    }
+  }
+}
+`
 
 export const Footer = styled.div`
   width: 100%;

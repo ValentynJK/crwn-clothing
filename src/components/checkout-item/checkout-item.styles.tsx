@@ -2,17 +2,25 @@ import styled from 'styled-components';
 
 export const CheckoutItemContainer = styled.div`
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   min-height: 100px;
   border-bottom: 1px solid darkgrey;
   padding: 15px 0;
   font-size: 20px;
   align-items: center;
+
+  @media screen and (max-width: 1024px) {
+    font-size: 14px;
+  }
 `;
 
 export const ImageContainer = styled.div`
-  width: 23%;
   padding-right: 15px;
+
+  @media screen and (max-width: 1024px) {
+   padding-right: 5px;
+  }
 
   img {
     width: 100%;
@@ -21,7 +29,7 @@ export const ImageContainer = styled.div`
 `;
 
 export const BaseSpan = styled.span`
-  width: 23%;
+  justify-self: center;
 `;
 
 export const Quantity = styled(BaseSpan)`
@@ -30,6 +38,9 @@ export const Quantity = styled(BaseSpan)`
 
 export const Arrow = styled.div`
   cursor: pointer;
+  @media screen and (max-width: 800px) {
+    font-size: 14px;
+  }
 `;
 
 export const Value = styled.span`
@@ -37,6 +48,6 @@ export const Value = styled.span`
 `;
 
 export const RemoveButton = styled.div`
-  padding-left: 12px;
+  justify-self: center;
   cursor: pointer;
 `;

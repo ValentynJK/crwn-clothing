@@ -26,13 +26,23 @@ export const Body = styled.div`
   h2 {
     font-weight: bold;
     margin: 0 6px 0;
-    font-size: 22px;
+    font-size: 1.3rem;
     color: #4a4a4a;
     text-transform: uppercase;
   }
   p {
     font-weight: lighter;
     font-size: 16px;
+  }
+  @media screen and (max-width: 800px) {
+   width: 100px;
+    h2{
+      font-size: 1rem;
+    }
+    p{
+      font-size: 0.75rem
+    }
+
   }
 `;
 

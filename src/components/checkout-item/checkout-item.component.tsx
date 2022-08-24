@@ -37,7 +37,7 @@ const CheckoutItem: FC<CheckoutItemProps> = memo(({ checkoutItem }) => {
         <Arrow onClick={increaseHandler}>&#10095;</Arrow>
       </Quantity>
 
-      <BaseSpan className='price'>{price}</BaseSpan>
+      <BaseSpan>{price}</BaseSpan>
       <RemoveButton as='span' onClick={deleteHandler}>&#10005;</RemoveButton>
     </CheckoutItemContainer>
   )

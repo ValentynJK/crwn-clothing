@@ -9,25 +9,23 @@ import { store, persistor } from './store/store'; //  boilerplate for redux-pers
 import { PersistGate } from 'redux-persist/integration/react'; //  boilerplate for redux-persist
 // component
 import App from './App';
-// global styling
-import './index.scss';
 // stripe
 import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from './utils/stripe/stripe.utils'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
-  <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <BrowserRouter>
-        <Elements stripe={stripePromise}>
-          <App />
-        </Elements>
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>
-  // </React.StrictMode >
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <Elements stripe={stripePromise}>
+            <App />
+          </Elements>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </React.StrictMode >
 );
 
 // If you want to start measuring performance in your app, pass a function
