@@ -13,8 +13,8 @@ const CartIcon = () => {
 
   const handleIShoppingItemClick = () => dispatch(setIsCartOpen(!isCartOpen));
   return (
-    <CartIconContainer>
-      <ShoppingIcon onClick={handleIShoppingItemClick} />
+    <CartIconContainer onClick={handleIShoppingItemClick}>
+      <ShoppingIcon />
       <ItemCount as='span'>{cartCount}</ItemCount>
     </CartIconContainer>
   )
