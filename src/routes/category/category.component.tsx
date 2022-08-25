@@ -42,7 +42,6 @@ const Category = () => {
           ))}
         </CategoryItem>
       )}
-      )
     </CategoryContainer>
 
   )
